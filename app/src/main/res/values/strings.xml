@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Motivocab Mobile</string>
+    <string name="loading">Loading ... </string>
+    <string name="next">Next</string>
+    <string name="card_front">front</string>
+    <string name="card_back">back</string>
 </resources>
