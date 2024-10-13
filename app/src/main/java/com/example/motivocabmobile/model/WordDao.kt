@@ -1,0 +1,27 @@
+package com.example.motivocabmobile.model
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface WordDao {
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(item: Word)
+
+    @Update
+    suspend fun update(item: Word)
+
+    @Delete
+    suspend fun delete(item: Word)
+
+    @Query("SELECT * from words WHERE id = :id")
+    suspend fun  getWord(id: Int): Flow<Word>
+
+    @Query("SELECT * from words ORDER BY back ASC")
+    suspend fun  getAllWords(): Flow<List<Word>>
+}

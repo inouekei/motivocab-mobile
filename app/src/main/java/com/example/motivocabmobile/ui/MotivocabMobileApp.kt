@@ -15,29 +15,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.motivocabmobile.R
 import com.example.motivocabmobile.ui.screens.HomeScreen
 import com.example.motivocabmobile.ui.screens.ListViewModel
-
+import com.example.motivocabmobile.ui.theme.MotivocabMobileTheme
 
 @Composable
-fun MotivocabMobileApp() {
+fun MotivocabMobileApp(modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {MotivocabTopAppBar(scrollBehavior = scrollBehavior)}
+        topBar = { MotivocabTopAppBar(scrollBehavior = scrollBehavior) }
+    ) { Surface(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Surface(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val listViewModel: ListViewModel = viewModel()
-            HomeScreen(
-                listUiState = listViewModel.listUiState,
-                contentPadding = it,
-            )
-        }
-    }
+        val listViewModel: ListViewModel = viewModel()
+        HomeScreen(
+            listUiState = listViewModel.listUiState,
+            contentPadding = it,
+        )
+    }}
 }
 
 @Composable
@@ -52,4 +51,12 @@ fun MotivocabTopAppBar(scrollBehavior: TopAppBarScrollBehavior, modifier: Modifi
         },
         modifier = modifier
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MotivocabApp() {
+    MotivocabMobileTheme {
+        MotivocabMobileApp()
+    }
 }

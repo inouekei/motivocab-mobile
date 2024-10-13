@@ -5,11 +5,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.motivocabmobile.model.Word
 import com.example.motivocabmobile.network.ListApi
 import kotlinx.coroutines.launch
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
+import java.io.IOException
 
+interface ListUiState {
+//    data class Success(val list: String) : ListUiState
+    data class Success(val list: List<Word>) : ListUiState
+    object Error : ListUiState
+    object Loading : ListUiState
+}
 class ListViewModel : ViewModel() {
-    var listUiState: String by mutableStateOf("")
+    var listUiState: ListUiState by mutableStateOf(ListUiState.Loading)
         private set
 
     init {
@@ -18,8 +28,19 @@ class ListViewModel : ViewModel() {
 
     fun getList() {
         viewModelScope.launch {
-            var listResult = ListApi.retrofitService.getList()
-            listUiState = listResult
+            listUiState = try {
+                val resultString = ListApi.retrofitService.getList()
+                val wordList = Json.decodeFromString(
+                    ListSerializer(Word.serializer()),
+                    resultString
+                )
+                ListUiState.Success(
+//                    "Success: ${wordList.size} words retrieved"
+                    wordList
+                )
+            } catch (e: IOException) {
+                ListUiState.Error
+            }
         }
     }
 }
