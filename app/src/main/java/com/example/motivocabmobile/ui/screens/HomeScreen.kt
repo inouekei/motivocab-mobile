@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -24,13 +23,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.motivocabmobile.R
 import com.example.motivocabmobile.model.Word
 import com.example.motivocabmobile.ui.AppViewModelProvider
 import com.example.motivocabmobile.ui.MotivocabTopAppBar
 import com.example.motivocabmobile.ui.navigation.NavigationDestination
-import com.example.motivocabmobile.ui.theme.MotivocabMobileTheme
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -39,8 +36,7 @@ object HomeDestination : NavigationDestination {
 
 @Composable
 fun HomeScreen(
-//    listViewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    listViewModel: ListViewModel = viewModel(),
+    listViewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -56,42 +52,40 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
-//    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-//    Scaffold(
-//        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-//        topBar = { MotivocabTopAppBar(scrollBehavior = scrollBehavior) }
-//    ) { Surface(
-//        modifier = Modifier.fillMaxSize()
-//    ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = { MotivocabTopAppBar(scrollBehavior = scrollBehavior) }
+    ) { Surface(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Box(
             contentAlignment = Alignment.Center,
-//            modifier = modifier.padding(paddingValues = it),
-            modifier = modifier,
+            modifier = modifier.padding(paddingValues = it),
         ) {
             Text(text = "\uD83D\uDD04")
         }
 
-//    }}
+    }}
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ErrorScreen(modifier: Modifier = Modifier) {
-//    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-//    Scaffold(
-//        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-//        topBar = { MotivocabTopAppBar(scrollBehavior = scrollBehavior) }
-//    ) { Surface(
-//        modifier = Modifier.fillMaxSize()
-//    ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = { MotivocabTopAppBar(scrollBehavior = scrollBehavior) }
+    ) { Surface(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Box(
             contentAlignment = Alignment.Center,
-//            modifier = modifier.padding(paddingValues = it),
-            modifier = modifier,
+            modifier = modifier.padding(paddingValues = it),
         ) {
             Text(text = "\uD83D\uDEAB")
         }
-//    }}
+    }}
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,24 +97,22 @@ fun ResultScreen(lists: List<Word>, modifier: Modifier = Modifier) {
         if (isFrontShown) cardMap.front
         else cardMap.back
 
-//    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-//    Scaffold(
-//        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-//        topBar = { MotivocabTopAppBar(scrollBehavior = scrollBehavior) }
-//    ) { Surface(
-//        modifier = Modifier.fillMaxSize()
-//    ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = { MotivocabTopAppBar(scrollBehavior = scrollBehavior) }
+    ) { Surface(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Box(
             contentAlignment = Alignment.Center,
-//            modifier = modifier.padding(paddingValues = it),
-            modifier = modifier,
+            modifier = modifier.padding(paddingValues = it),
         ) {
             Text(text = "Success: ${lists.size} words retrieved")
         }
 
         Column(
-//            modifier = modifier.padding(paddingValues = it),
-            modifier = modifier,
+            modifier = modifier.padding(paddingValues = it),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(onClick = {isFrontShown = !isFrontShown}) {
@@ -133,7 +125,7 @@ fun ResultScreen(lists: List<Word>, modifier: Modifier = Modifier) {
                 Text(stringResource(R.string.next))
             }
         }
-//    }}
+    }}
 }
 
 //@Preview(showBackground = true)
