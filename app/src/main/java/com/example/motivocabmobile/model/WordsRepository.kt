@@ -8,4 +8,5 @@ interface WordsRepository {
     suspend fun insertWord(word: Word)
     suspend fun deleteWord(word: Word)
     suspend fun updateWord(word: Word)
+    fun isWordExists(id: Int): Flow<Boolean>
 }

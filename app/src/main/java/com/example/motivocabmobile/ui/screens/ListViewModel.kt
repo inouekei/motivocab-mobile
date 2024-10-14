@@ -6,7 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motivocabmobile.model.Word
+import com.example.motivocabmobile.model.WordsRepository
 import com.example.motivocabmobile.network.ListApi
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -18,7 +20,9 @@ interface ListUiState {
     object Error : ListUiState
     object Loading : ListUiState
 }
-class ListViewModel : ViewModel() {
+
+//class ListViewModel(private val wordsRepository: WordsRepository) : ViewModel() {
+class ListViewModel() : ViewModel() {
     var listUiState: ListUiState by mutableStateOf(ListUiState.Loading)
         private set
 
@@ -34,6 +38,12 @@ class ListViewModel : ViewModel() {
                     ListSerializer(Word.serializer()),
                     resultString
                 )
+//                wordList.forEach loop@{
+//                    val word = wordsRepository.getWordStream(it.id).firstOrNull()
+//                    if (word == null){
+//                        wordsRepository.insertWord(it)
+//                    }
+//                }
                 ListUiState.Success(
 //                    "Success: ${wordList.size} words retrieved"
                     wordList

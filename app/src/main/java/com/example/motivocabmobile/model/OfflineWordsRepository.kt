@@ -8,4 +8,5 @@ class OfflineWordsRepository(private val wordDao: WordDao): WordsRepository {
     override suspend fun insertWord(word: Word) = wordDao.insert(word)
     override suspend fun updateWord(word: Word) = wordDao.update(word)
     override suspend fun deleteWord(word: Word) = wordDao.delete(word)
+    override fun isWordExists(id: Int): Flow<Boolean> = wordDao.isWordExists(id)
 }
