@@ -8,22 +8,39 @@ import androidx.lifecycle.viewModelScope
 import com.example.motivocabmobile.model.Word
 import com.example.motivocabmobile.model.WordsRepository
 import com.example.motivocabmobile.network.ListApi
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import java.io.IOException
 
 interface ListUiState {
-//    data class Success(val list: String) : ListUiState
-    data class Success(val list: List<Word>) : ListUiState
+//    data class Success(val list: List<Word>) : ListUiState
+    object Success : ListUiState
     object Error : ListUiState
     object Loading : ListUiState
 }
 
+data class LatestListState(val list: List<Word> = listOf())
+
 class ListViewModel(private val wordsRepository: WordsRepository) : ViewModel() {
     var listUiState: ListUiState by mutableStateOf(ListUiState.Loading)
         private set
+    val latestListState: StateFlow<LatestListState> =
+        wordsRepository.getAllWordStream().map {LatestListState(it)}
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                initialValue = LatestListState()
+            )
+
+    companion object {
+        private const val TIMEOUT_MILLIS = 5_00L
+    }
 
     init {
         getList()
@@ -43,10 +60,7 @@ class ListViewModel(private val wordsRepository: WordsRepository) : ViewModel() 
                         wordsRepository.insertWord(it)
                     }
                 }
-                ListUiState.Success(
-//                    "Success: ${wordList.size} words retrieved"
-                    wordList
-                )
+                ListUiState.Success
             } catch (e: IOException) {
                 ListUiState.Error
             }

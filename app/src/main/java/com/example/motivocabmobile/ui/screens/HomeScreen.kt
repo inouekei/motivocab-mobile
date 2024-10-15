@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,13 +41,21 @@ fun HomeScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     val listUiState = listViewModel.listUiState
-    when (listUiState) {
-        is ListUiState.Loading ->
-            LoadingScreen(modifier = Modifier.fillMaxSize())
-        is ListUiState.Success -> ResultScreen(
-            listUiState.list, modifier.padding(top = contentPadding.calculateTopPadding()))
-        is ListUiState.Error -> ErrorScreen(modifier = Modifier.fillMaxSize())
+    val latestListState by listViewModel.latestListState.collectAsState()
+    if (latestListState.list.size > 0) {
+        ResultScreen(
+            latestListState.list, modifier.padding(top = contentPadding.calculateTopPadding())
+        )
+    } else {
+        ErrorScreen(modifier = Modifier.fillMaxSize())
     }
+//    when (listUiState) {
+//        is ListUiState.Loading ->
+//            LoadingScreen(modifier = Modifier.fillMaxSize())
+//        is ListUiState.Success -> ResultScreen(
+//            latestListState.list, modifier.padding(top = contentPadding.calculateTopPadding()))
+//        is ListUiState.Error -> ErrorScreen(modifier = Modifier.fillMaxSize())
+//    }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
