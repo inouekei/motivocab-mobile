@@ -1,5 +1,6 @@
 package com.example.motivocabmobile.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -42,6 +45,16 @@ fun HomeScreen(
 ) {
     val listUiState = listViewModel.listUiState
     val latestListState by listViewModel.latestListState.collectAsState()
+    val context = LocalContext.current
+    LaunchedEffect (key1 = listUiState) {
+        if (listUiState == ListUiState.Loading) {
+            Toast.makeText(context, "Updating database", Toast.LENGTH_SHORT).show()
+        } else if (listUiState == ListUiState.Success) {
+            Toast.makeText(context, "Updated database", Toast.LENGTH_SHORT).show()
+        } else if (listUiState ==  ListUiState.Error) {
+            Toast.makeText(context, "Failed in Updating database", Toast.LENGTH_SHORT).show()
+        }
+    }
     if (latestListState.list.size > 0) {
         ResultScreen(
             latestListState.list, modifier.padding(top = contentPadding.calculateTopPadding())
@@ -49,13 +62,6 @@ fun HomeScreen(
     } else {
         ErrorScreen(modifier = Modifier.fillMaxSize())
     }
-//    when (listUiState) {
-//        is ListUiState.Loading ->
-//            LoadingScreen(modifier = Modifier.fillMaxSize())
-//        is ListUiState.Success -> ResultScreen(
-//            latestListState.list, modifier.padding(top = contentPadding.calculateTopPadding()))
-//        is ListUiState.Error -> ErrorScreen(modifier = Modifier.fillMaxSize())
-//    }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
