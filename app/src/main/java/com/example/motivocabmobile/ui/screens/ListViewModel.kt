@@ -21,8 +21,7 @@ interface ListUiState {
     object Loading : ListUiState
 }
 
-//class ListViewModel(private val wordsRepository: WordsRepository) : ViewModel() {
-class ListViewModel() : ViewModel() {
+class ListViewModel(private val wordsRepository: WordsRepository) : ViewModel() {
     var listUiState: ListUiState by mutableStateOf(ListUiState.Loading)
         private set
 
@@ -38,12 +37,12 @@ class ListViewModel() : ViewModel() {
                     ListSerializer(Word.serializer()),
                     resultString
                 )
-//                wordList.forEach loop@{
-//                    val word = wordsRepository.getWordStream(it.id).firstOrNull()
-//                    if (word == null){
-//                        wordsRepository.insertWord(it)
-//                    }
-//                }
+                wordList.forEach {
+                    val word = wordsRepository.getWordStream(it.id).firstOrNull()
+                    if (word == null){
+                        wordsRepository.insertWord(it)
+                    }
+                }
                 ListUiState.Success(
 //                    "Success: ${wordList.size} words retrieved"
                     wordList

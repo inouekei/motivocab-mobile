@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.motivocabmobile.ui
+package com.example.motivocabmobile
 
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.motivocabmobile.ui.navigation.ListNavHost
-import com.example.motivocabmobile.R
 import com.example.motivocabmobile.ui.theme.MotivocabMobileTheme
 
 

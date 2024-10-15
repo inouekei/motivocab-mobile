@@ -1,4 +1,4 @@
-package com.example.motivocabmobile.ui
+package com.example.motivocabmobile
 
 import android.app.Application
 import com.example.motivocabmobile.model.AppContainer
