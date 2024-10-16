@@ -10,7 +10,10 @@ import com.example.motivocabmobile.ui.screens.ListViewModel
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            ListViewModel(listApplication().container.wordsRepository)
+            ListViewModel(
+                listApplication().container.wordsRepository,
+//                listApplication().container.updateRepository,
+            )
         }
     }
 }

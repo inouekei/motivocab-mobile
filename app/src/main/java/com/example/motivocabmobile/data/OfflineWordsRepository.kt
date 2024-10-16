@@ -1,5 +1,6 @@
-package com.example.motivocabmobile.model
+package com.example.motivocabmobile.data
 
+import com.example.motivocabmobile.model.Word
 import kotlinx.coroutines.flow.Flow
 
 class OfflineWordsRepository(private val wordDao: WordDao): WordsRepository {
